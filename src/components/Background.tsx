@@ -1,16 +1,16 @@
 "use client";
 import React, { useEffect, useRef } from "react";
 
-// 2D "A" backbone (key points)
+// 2D "A" backbone (key points) - flipped so apex points up
 const A_BASE = [
   // Left leg
-  { x: 0.3, y: 0.1 },
+  { x: 0.3, y: 0.9 },
   { x: 0.4, y: 0.5 },
-  { x: 0.5, y: 0.9 },
+  { x: 0.5, y: 0.1 },
   // Right leg
-  { x: 0.5, y: 0.9 },
+  { x: 0.5, y: 0.1 },
   { x: 0.6, y: 0.5 },
-  { x: 0.7, y: 0.1 },
+  { x: 0.7, y: 0.9 },
   // Crossbar
   { x: 0.42, y: 0.5 },
   { x: 0.58, y: 0.5 }
@@ -50,13 +50,19 @@ export default function Background() {
     let currentIndex = 0;
     let intervalId: NodeJS.Timeout;
 
-    // Start with swirl, then cycle
-    const initialTimeout = setTimeout(() => {
+    // Initial 2 second delay, then cycle with different durations
+    const cycleModes = () => {
       modeRef.current = sequence[currentIndex];
-      intervalId = setInterval(() => {
+      // "letter" (A shape) = 5 seconds, "swirl" = 10 seconds
+      const duration = sequence[currentIndex] === "letter" ? 5000 : 10000;
+      intervalId = setTimeout(() => {
         currentIndex = (currentIndex + 1) % sequence.length;
-        modeRef.current = sequence[currentIndex];
-      }, 7000); // 7 seconds per phase
+        cycleModes();
+      }, duration);
+    };
+
+    const initialTimeout = setTimeout(() => {
+      cycleModes();
     }, 2000);
 
     const handleScroll = () => {
@@ -67,7 +73,7 @@ export default function Background() {
 
     return () => {
       clearTimeout(initialTimeout);
-      if (intervalId) clearInterval(intervalId);
+      if (intervalId) clearTimeout(intervalId);
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
@@ -86,15 +92,19 @@ export default function Background() {
     let animationFrameId: number;
     let prevWidth = window.innerWidth;
 
-    const getSegments = (w: number, h: number) => {
+    const getSegments = (w: number, h: number, scrollY: number) => {
       const currentMode = modeRef.current;
       if (currentMode === "swirl") return [];
 
       const isMobile = w < 768;
-      const scaleFactor = isMobile ? 0.5 : 0.6;
+      const scaleFactor = isMobile ? 0.55 : 0.75;
       const s = Math.min(w, h) * scaleFactor;
       const cx = w / 2;
-      const cy = h / 2;
+
+      const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+      const triggerPoint = maxScroll * 0.82;
+      const scrollPastTrigger = Math.max(0, scrollY - triggerPoint);
+      const cy = h / 2 + scrollPastTrigger * 0.5;
 
       const project = (pt: { x: number; y: number }) => ({
         x: cx + (pt.x - 0.5) * s,
@@ -137,23 +147,23 @@ export default function Background() {
         this.x = Math.random() * width;
         this.y = Math.random() * height;
         this.size = Math.random() * 2 + 0.5;
-        this.vx = (Math.random() - 0.5) * 6;
-        this.vy = (Math.random() - 0.5) * 6;
-        this.maxLife = Math.random() * 100 + 250; // ~4-6 seconds at 60fps
+        this.vx = (Math.random() - 0.5) * 2;
+        this.vy = (Math.random() - 0.5) * 2;
+        this.maxLife = Math.random() * 400 + 400;
         this.life = this.maxLife;
         this.opacity = 0;
       }
 
       update(t: number, segments: { a: { x: number; y: number }; b: { x: number; y: number } }[]) {
         const mode = modeRef.current;
-        const isMappingMode = mode === "letter";
+        const isMappingMode = mode !== "swirl";
 
-        const zoom = isMappingMode ? 0.003 : 0.005;
+        const zoom = isMappingMode ? 0.0015 : 0.0035;
         const angle =
-          (Math.sin(this.x * zoom + t * 0.004) + Math.cos(this.y * zoom + t * 0.004)) *
+          (Math.sin(this.x * zoom + t * 0.0005) + Math.cos(this.y * zoom + t * 0.0005)) *
           Math.PI *
           2;
-        const accel = isMappingMode ? 0.2 : 0.5;
+        const accel = isMappingMode ? 0.06 : 0.2;
 
         this.vx += Math.cos(angle) * accel;
         this.vy += Math.sin(angle) * accel;
@@ -170,28 +180,27 @@ export default function Background() {
             }
           }
           const dist = Math.sqrt(minDSq);
-          if (dist < 120) {
-            const pull = (120 - dist) / 120;
-            // Stronger pull for tighter paths
-            this.vx += (bestPoint.x - this.x) * 0.025 * pull;
-            this.vy += (bestPoint.y - this.y) * 0.025 * pull;
+          if (dist < 150) {
+            const pull = (150 - dist) / 150;
+            this.vx += (bestPoint.x - this.x) * 0.005 * pull;
+            this.vy += (bestPoint.y - this.y) * 0.005 * pull;
           }
         }
 
         this.x += this.vx;
         this.y += this.vy;
-        this.vx *= 0.96;
-        this.vy *= 0.96;
+        this.vx *= 0.93;
+        this.vy *= 0.93;
 
         this.life--;
-        if (this.life > this.maxLife * 0.8) this.opacity += 0.015;
-        if (this.life < 50) this.opacity -= 0.025;
+        if (this.life > this.maxLife * 0.8) this.opacity += 0.01;
+        if (this.life < 50) this.opacity -= 0.02;
         if (this.life <= 0 || this.x < -100 || this.x > width + 100) this.init();
       }
 
       draw() {
         if (!ctx) return;
-        ctx.globalAlpha = Math.max(0, Math.min(this.opacity, 0.12));
+        ctx.globalAlpha = Math.max(0, Math.min(this.opacity, 0.4));
         ctx.fillStyle = "#4fc3f7";
         ctx.fillRect(Math.floor(this.x), Math.floor(this.y), this.size, this.size);
       }
@@ -199,14 +208,13 @@ export default function Background() {
 
     const init = () => {
       const isMobile = window.innerWidth < 768;
-      // Half the particles
-      const particleCount = isMobile ? 400 : 1000;
+      const particleCount = isMobile ? 1200 : 3000;
       particles = Array.from({ length: particleCount }, () => new Particle());
     };
 
     const animate = () => {
       time++;
-      const segments = getSegments(width, height);
+      const segments = getSegments(width, height, scrollRef.current);
 
       ctx.globalCompositeOperation = "destination-out";
       ctx.fillStyle = "rgba(255, 255, 255, 0.4)";

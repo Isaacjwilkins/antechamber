@@ -28,39 +28,39 @@ const stagger = {
 
 export default function Home() {
   return (
-    <div className="relative min-h-screen overflow-x-hidden">
+    <div className="relative overflow-x-hidden">
       <Background />
 
       {/* Grid overlay */}
       <div className="grid-overlay" />
 
       <main>
-        {/* Hero Section */}
-        <section className="relative min-h-screen flex flex-col items-center justify-center px-6">
+        {/* Hero Section - exactly viewport height */}
+        <section className="relative h-[100dvh] flex flex-col items-center justify-center px-4 sm:px-6 pt-16 sm:pt-24">
           <motion.div
             className="mx-auto max-w-4xl text-center"
             initial="hidden"
             animate="visible"
             variants={stagger}
           >
-            {/* Logo */}
-            <motion.div className="mb-12" variants={fadeInUp} transition={{ duration: 0.8 }}>
-              <Logo size={200} className="logo-float mx-auto" />
+            {/* Logo - responsive sizing */}
+            <motion.div className="mb-8 sm:mb-12" variants={fadeInUp} transition={{ duration: 0.8 }}>
+              <Logo size={140} className="mx-auto sm:w-[200px] sm:h-auto" />
             </motion.div>
 
             {/* Wordmark */}
             <motion.div variants={fadeInUp} transition={{ duration: 0.8, delay: 0.1 }}>
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-light tracking-[0.4em] uppercase gradient-text mb-4">
+              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-light tracking-[0.2em] sm:tracking-[0.4em] uppercase gradient-text mb-2 sm:mb-4">
                 Antechamber
               </h1>
-              <p className="text-sm tracking-[0.4em] uppercase text-[#8395a7] opacity-60">
+              <p className="text-xs sm:text-sm tracking-[0.3em] sm:tracking-[0.4em] uppercase text-[#8395a7] opacity-60">
                 Health Intelligence
               </p>
             </motion.div>
 
             {/* Tagline */}
             <motion.p
-              className="mt-12 text-xl sm:text-2xl text-[#8395a7] font-light leading-relaxed max-w-2xl mx-auto"
+              className="mt-8 sm:mt-12 text-base sm:text-xl md:text-2xl text-[#8395a7] font-light leading-relaxed max-w-xs sm:max-w-xl md:max-w-2xl mx-auto px-2"
               variants={fadeInUp}
               transition={{ duration: 0.8, delay: 0.2 }}
             >
@@ -69,34 +69,18 @@ export default function Home() {
 
             {/* CTA */}
             <motion.div
-              className="mt-12 flex flex-col sm:flex-row gap-4 justify-center"
+              className="mt-8 sm:mt-12 flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center px-4"
               variants={fadeInUp}
               transition={{ duration: 0.8, delay: 0.3 }}
             >
-              <a href="#about" className="btn-primary">
+              <a href="#about" className="btn-primary text-sm sm:text-base">
                 Learn More
                 <ArrowRight className="w-4 h-4" />
               </a>
-              <a href="#contact" className="btn-secondary">
+              <a href="#contact" className="btn-secondary text-sm sm:text-base">
                 Contact Us
               </a>
             </motion.div>
-          </motion.div>
-
-          {/* Scroll indicator */}
-          <motion.div
-            className="absolute bottom-12 left-1/2 -translate-x-1/2"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 1, duration: 0.8 }}
-          >
-            <div className="w-6 h-10 rounded-full border border-[#576574] flex items-start justify-center p-2">
-              <motion.div
-                className="w-1 h-2 bg-[#4fc3f7] rounded-full"
-                animate={{ y: [0, 8, 0] }}
-                transition={{ repeat: Infinity, duration: 1.5 }}
-              />
-            </div>
           </motion.div>
         </section>
 
@@ -104,70 +88,70 @@ export default function Home() {
         <div className="divider" />
 
         {/* About Section */}
-        <section id="about" className="py-32 px-6">
+        <section id="about" className="pt-24 pb-16 sm:py-24 md:py-32 px-4 sm:px-6">
           <div className="mx-auto max-w-6xl">
             <motion.div
-              className="text-center mb-20"
+              className="text-center mb-12 sm:mb-20"
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true, margin: "-100px" }}
               variants={fadeInUp}
               transition={{ duration: 0.8 }}
             >
-              <h2 className="text-3xl sm:text-4xl font-light tracking-wider text-[#c8d6e5] mb-6">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-light tracking-wider text-[#c8d6e5] mb-4 sm:mb-6">
                 Smarter Referral Intelligence
               </h2>
-              <p className="text-lg text-[#8395a7] max-w-3xl mx-auto leading-relaxed">
+              <p className="text-base sm:text-lg text-[#8395a7] max-w-3xl mx-auto leading-relaxed px-2">
                 We transform messy referral intake for large Neuro/GI PE groups through HIE integration—turning chaos into actionable intelligence.
               </p>
             </motion.div>
 
             {/* Feature Cards */}
             <motion.div
-              className="grid md:grid-cols-3 gap-8"
+              className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8"
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true, margin: "-100px" }}
               variants={stagger}
             >
               <motion.div
-                className="glass-card p-8"
+                className="glass-card p-6 sm:p-8"
                 variants={fadeInUp}
                 transition={{ duration: 0.6 }}
               >
-                <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-[#4fc3f7]/20 to-[#7c4dff]/20 flex items-center justify-center mb-6">
-                  <FileStack className="w-7 h-7 text-[#4fc3f7]" />
+                <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-xl bg-gradient-to-br from-[#4fc3f7]/20 to-[#7c4dff]/20 flex items-center justify-center mb-4 sm:mb-6">
+                  <FileStack className="w-6 h-6 sm:w-7 sm:h-7 text-[#4fc3f7]" />
                 </div>
-                <h3 className="text-xl font-medium text-[#c8d6e5] mb-3">Clean Referral Packets</h3>
-                <p className="text-[#8395a7] leading-relaxed">
+                <h3 className="text-lg sm:text-xl font-medium text-[#c8d6e5] mb-2 sm:mb-3">Clean Referral Packets</h3>
+                <p className="text-sm sm:text-base text-[#8395a7] leading-relaxed">
                   Messy fax-based referrals become structured, clinician-ready packets. Our system also flags patients who may warrant evaluation for rare diseases—surfacing opportunities others miss.
                 </p>
               </motion.div>
 
               <motion.div
-                className="glass-card p-8"
+                className="glass-card p-6 sm:p-8"
                 variants={fadeInUp}
                 transition={{ duration: 0.6 }}
               >
-                <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-[#7c4dff]/20 to-[#00e5ff]/20 flex items-center justify-center mb-6">
-                  <Zap className="w-7 h-7 text-[#7c4dff]" />
+                <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-xl bg-gradient-to-br from-[#7c4dff]/20 to-[#00e5ff]/20 flex items-center justify-center mb-4 sm:mb-6">
+                  <Zap className="w-6 h-6 sm:w-7 sm:h-7 text-[#7c4dff]" />
                 </div>
-                <h3 className="text-xl font-medium text-[#c8d6e5] mb-3">Frictionless Next Steps</h3>
-                <p className="text-[#8395a7] leading-relaxed">
+                <h3 className="text-lg sm:text-xl font-medium text-[#c8d6e5] mb-2 sm:mb-3">Frictionless Next Steps</h3>
+                <p className="text-sm sm:text-base text-[#8395a7] leading-relaxed">
                   When a patient looks like a fit, we make the next step as easy as possible for the clinic and physician—eliminating barriers between identification and action.
                 </p>
               </motion.div>
 
               <motion.div
-                className="glass-card p-8"
+                className="glass-card p-6 sm:p-8"
                 variants={fadeInUp}
                 transition={{ duration: 0.6 }}
               >
-                <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-[#00e5ff]/20 to-[#4fc3f7]/20 flex items-center justify-center mb-6">
-                  <TrendingUp className="w-7 h-7 text-[#00e5ff]" />
+                <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-xl bg-gradient-to-br from-[#00e5ff]/20 to-[#4fc3f7]/20 flex items-center justify-center mb-4 sm:mb-6">
+                  <TrendingUp className="w-6 h-6 sm:w-7 sm:h-7 text-[#00e5ff]" />
                 </div>
-                <h3 className="text-xl font-medium text-[#c8d6e5] mb-3">Built for PE-Backed Groups</h3>
-                <p className="text-[#8395a7] leading-relaxed">
+                <h3 className="text-lg sm:text-xl font-medium text-[#c8d6e5] mb-2 sm:mb-3">Built for PE-Backed Groups</h3>
+                <p className="text-sm sm:text-base text-[#8395a7] leading-relaxed">
                   Lower intake costs through fewer manual touches. More revenue from faster scheduling and fewer dropped referrals. Better visibility with referral KPIs. Aligned incentives across operations and pharma partnerships.
                 </p>
               </motion.div>
@@ -179,7 +163,7 @@ export default function Home() {
         <div className="divider" />
 
         {/* Contact Section */}
-        <section id="contact" className="py-32 px-6">
+        <section id="contact" className="py-16 sm:py-24 md:py-32 px-4 sm:px-6">
           <div className="mx-auto max-w-4xl text-center">
             <motion.div
               initial="hidden"
@@ -188,34 +172,34 @@ export default function Home() {
               variants={fadeInUp}
               transition={{ duration: 0.8 }}
             >
-              <h2 className="text-3xl sm:text-4xl font-light tracking-wider text-[#c8d6e5] mb-6">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-light tracking-wider text-[#c8d6e5] mb-4 sm:mb-6">
                 Let&apos;s Connect
               </h2>
-              <p className="text-lg text-[#8395a7] mb-12 max-w-xl mx-auto">
+              <p className="text-base sm:text-lg text-[#8395a7] mb-8 sm:mb-12 max-w-xl mx-auto px-2">
                 Interested in learning more about Antechamber Health? We&apos;d love to hear from
                 you.
               </p>
             </motion.div>
 
             <motion.div
-              className="flex flex-col sm:flex-row gap-6 justify-center"
+              className="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center px-4"
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true, margin: "-100px" }}
               variants={fadeInUp}
               transition={{ duration: 0.8, delay: 0.1 }}
             >
-              <a href="mailto:isaacjwilkins@gmail.com" className="btn-primary">
-                <Mail className="w-5 h-5" />
+              <a href="mailto:isaacjwilkins@gmail.com" className="btn-primary text-sm sm:text-base">
+                <Mail className="w-4 h-4 sm:w-5 sm:h-5" />
                 Contact Us
               </a>
               <a
                 href="https://linkedin.com/company/antechamber-health"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="btn-secondary"
+                className="btn-secondary text-sm sm:text-base"
               >
-                <LinkedinIcon className="w-5 h-5" />
+                <LinkedinIcon className="w-4 h-4 sm:w-5 sm:h-5" />
                 LinkedIn
               </a>
             </motion.div>
@@ -224,13 +208,13 @@ export default function Home() {
       </main>
 
       {/* Footer */}
-      <footer className="py-12 px-6 border-t border-white/5">
-        <div className="mx-auto max-w-6xl flex flex-col sm:flex-row items-center justify-between gap-6">
-          <div className="flex items-center gap-3">
-            <Logo size={32} />
-            <span className="text-sm text-[#8395a7]">Antechamber Health</span>
+      <footer className="py-8 sm:py-12 px-4 sm:px-6 border-t border-white/5">
+        <div className="mx-auto max-w-6xl flex flex-col sm:flex-row items-center justify-between gap-4 sm:gap-6">
+          <div className="flex items-center gap-2 sm:gap-3">
+            <Logo size={28} className="sm:w-8 sm:h-auto" />
+            <span className="text-xs sm:text-sm text-[#8395a7]">Antechamber Health</span>
           </div>
-          <p className="text-sm text-[#576574]">
+          <p className="text-xs sm:text-sm text-[#576574]">
             &copy; 2026 Antechamber Health. All rights reserved.
           </p>
         </div>

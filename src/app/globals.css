@@ -69,12 +69,12 @@ body {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  padding: 14px 32px;
+  gap: 6px;
+  padding: 12px 24px;
   font-weight: 500;
-  font-size: 1rem;
+  font-size: 0.875rem;
   letter-spacing: 0.02em;
-  border-radius: 12px;
+  border-radius: 10px;
   background: linear-gradient(135deg, var(--accent-1) 0%, var(--accent-2) 100%);
   background-size: 200% 200%;
   color: #0a0a0f;
@@ -82,6 +82,15 @@ body {
   cursor: pointer;
   transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   overflow: hidden;
+}
+
+@media (min-width: 640px) {
+  .btn-primary {
+    gap: 8px;
+    padding: 14px 32px;
+    font-size: 1rem;
+    border-radius: 12px;
+  }
 }
 
 .btn-primary::before {
@@ -112,18 +121,27 @@ body {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  padding: 14px 32px;
+  gap: 6px;
+  padding: 12px 24px;
   font-weight: 500;
-  font-size: 1rem;
+  font-size: 0.875rem;
   letter-spacing: 0.02em;
-  border-radius: 12px;
+  border-radius: 10px;
   background: transparent;
   color: var(--metal-light);
   border: 1px solid rgba(79, 195, 247, 0.2);
   cursor: pointer;
   transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   backdrop-filter: blur(10px);
+}
+
+@media (min-width: 640px) {
+  .btn-secondary {
+    gap: 8px;
+    padding: 14px 32px;
+    font-size: 1rem;
+    border-radius: 12px;
+  }
 }
 
 .btn-secondary:hover {
