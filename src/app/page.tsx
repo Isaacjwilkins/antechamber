@@ -34,24 +34,9 @@ export default function Home() {
       {/* Grid overlay */}
       <div className="grid-overlay" />
 
-      {/* Header */}
-      <header className="fixed top-0 left-0 right-0 z-50 backdrop-blur-sm bg-[#0a0a0f]/50">
-        <nav className="mx-auto max-w-6xl px-6 lg:px-8 h-20 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <Logo size={40} className="logo-float" />
-            <span className="text-lg font-light tracking-wider text-[#c8d6e5]">
-              ANTECHAMBER
-            </span>
-          </div>
-          <a href="#contact" className="btn-secondary text-sm px-6 py-2.5">
-            Get in Touch
-          </a>
-        </nav>
-      </header>
-
       <main>
         {/* Hero Section */}
-        <section className="relative min-h-screen flex flex-col items-center justify-center px-6 pt-20">
+        <section className="relative min-h-screen flex flex-col items-center justify-center px-6">
           <motion.div
             className="mx-auto max-w-4xl text-center"
             initial="hidden"
