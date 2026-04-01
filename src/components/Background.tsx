@@ -1,25 +1,44 @@
 "use client";
 import React, { useEffect, useRef } from "react";
 
-const PIANO_MAP = [
-  { x: 0.25, y: 0.80 }, { x: 0.75, y: 0.80 }, { x: 0.75, y: 0.60 }, { x: 0.74, y: 0.53 },
-  { x: 0.72, y: 0.48 }, { x: 0.70, y: 0.46 }, { x: 0.67, y: 0.44 }, { x: 0.64, y: 0.43 },
-  { x: 0.61, y: 0.42 }, { x: 0.59, y: 0.42 }, { x: 0.57, y: 0.42 }, { x: 0.54, y: 0.41 },
-  { x: 0.51, y: 0.36 }, { x: 0.49, y: 0.29 }, { x: 0.47, y: 0.23 }, { x: 0.45, y: 0.20 },
-  { x: 0.41, y: 0.19 }, { x: 0.32, y: 0.19 }, { x: 0.27, y: 0.20 }, { x: 0.25, y: 0.23 },
-  { x: 0.25, y: 0.28 }, { x: 0.25, y: 0.80 }
+// 2D "A" backbone (key points)
+const A_BASE = [
+  // Left leg
+  { x: 0.3, y: 0.1 },
+  { x: 0.4, y: 0.5 },
+  { x: 0.5, y: 0.9 },
+  // Right leg
+  { x: 0.5, y: 0.9 },
+  { x: 0.6, y: 0.5 },
+  { x: 0.7, y: 0.1 },
+  // Crossbar
+  { x: 0.42, y: 0.5 },
+  { x: 0.58, y: 0.5 }
 ];
 
-const GUITAR_MAP = [
-  { x: 0.16, y: 0.80 }, { x: 0.27, y: 0.87 }, { x: 0.39, y: 0.88 }, { x: 0.48, y: 0.76 },
-  { x: 0.45, y: 0.69 }, { x: 0.45, y: 0.66 }, { x: 0.51, y: 0.59 }, { x: 0.56, y: 0.58 },
-  { x: 0.62, y: 0.48 }, { x: 0.54, y: 0.37 }, { x: 0.76, y: 0.12 }, { x: 0.73, y: 0.09 },
-  { x: 0.50, y: 0.35 }, { x: 0.37, y: 0.33 }, { x: 0.30, y: 0.43 }, { x: 0.30, y: 0.48 },
-  { x: 0.30, y: 0.51 }, { x: 0.25, y: 0.58 }, { x: 0.22, y: 0.59 }, { x: 0.16, y: 0.60 },
-  { x: 0.11, y: 0.71 }, { x: 0.15, y: 0.80 }
+// Smooth interpolation
+function interpolate(p1: { x: number; y: number }, p2: { x: number; y: number }, steps = 8) {
+  const pts = [];
+  for (let i = 0; i <= steps; i++) {
+    const t = i / steps;
+    pts.push({
+      x: p1.x + (p2.x - p1.x) * t,
+      y: p1.y + (p2.y - p1.y) * t
+    });
+  }
+  return pts;
+}
+
+// Build smooth 2D A
+const A_MAP = [
+  ...interpolate(A_BASE[0], A_BASE[1]),
+  ...interpolate(A_BASE[1], A_BASE[2]),
+  ...interpolate(A_BASE[3], A_BASE[4]),
+  ...interpolate(A_BASE[4], A_BASE[5]),
+  ...interpolate(A_BASE[6], A_BASE[7], 6)
 ];
 
-type AppMode = "swirl" | "piano" | "guitar";
+type AppMode = "swirl" | "letter";
 
 export default function Background() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -27,16 +46,17 @@ export default function Background() {
   const scrollRef = useRef(0);
 
   useEffect(() => {
-    const sequence: AppMode[] = ["piano", "swirl", "guitar", "swirl"];
+    const sequence: AppMode[] = ["letter", "swirl"];
     let currentIndex = 0;
     let intervalId: NodeJS.Timeout;
 
+    // Start with swirl, then cycle
     const initialTimeout = setTimeout(() => {
       modeRef.current = sequence[currentIndex];
       intervalId = setInterval(() => {
         currentIndex = (currentIndex + 1) % sequence.length;
         modeRef.current = sequence[currentIndex];
-      }, 6000);
+      }, 7000); // 7 seconds per phase
     }, 2000);
 
     const handleScroll = () => {
@@ -66,30 +86,24 @@ export default function Background() {
     let animationFrameId: number;
     let prevWidth = window.innerWidth;
 
-    const getSegments = (w: number, h: number, scrollY: number) => {
+    const getSegments = (w: number, h: number) => {
       const currentMode = modeRef.current;
       if (currentMode === "swirl") return [];
 
       const isMobile = w < 768;
-      const scaleFactor = isMobile ? 0.55 : 0.75;
+      const scaleFactor = isMobile ? 0.5 : 0.6;
       const s = Math.min(w, h) * scaleFactor;
       const cx = w / 2;
-
-      const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
-      const triggerPoint = maxScroll * 0.82;
-      const scrollPastTrigger = Math.max(0, scrollY - triggerPoint);
-      const cy = h / 2 + scrollPastTrigger * 0.5;
-
-      const activeMap = currentMode === "piano" ? PIANO_MAP : GUITAR_MAP;
+      const cy = h / 2;
 
       const project = (pt: { x: number; y: number }) => ({
         x: cx + (pt.x - 0.5) * s,
         y: cy + (pt.y - 0.5) * s,
       });
 
-      return activeMap.slice(0, -1).map((pt, i) => ({
+      return A_MAP.slice(0, -1).map((pt, i) => ({
         a: project(pt),
-        b: project(activeMap[i + 1]),
+        b: project(A_MAP[i + 1]),
       }));
     };
 
@@ -125,14 +139,14 @@ export default function Background() {
         this.size = Math.random() * 2 + 0.5;
         this.vx = (Math.random() - 0.5) * 6;
         this.vy = (Math.random() - 0.5) * 6;
-        this.maxLife = Math.random() * 250 + 250;
+        this.maxLife = Math.random() * 100 + 250; // ~4-6 seconds at 60fps
         this.life = this.maxLife;
         this.opacity = 0;
       }
 
       update(t: number, segments: { a: { x: number; y: number }; b: { x: number; y: number } }[]) {
         const mode = modeRef.current;
-        const isMappingMode = mode !== "swirl";
+        const isMappingMode = mode === "letter";
 
         const zoom = isMappingMode ? 0.003 : 0.005;
         const angle =
@@ -178,7 +192,7 @@ export default function Background() {
       draw() {
         if (!ctx) return;
         ctx.globalAlpha = Math.max(0, Math.min(this.opacity, 0.12));
-        ctx.fillStyle = "#2d2d38";
+        ctx.fillStyle = "#4fc3f7";
         ctx.fillRect(Math.floor(this.x), Math.floor(this.y), this.size, this.size);
       }
     }
@@ -192,7 +206,7 @@ export default function Background() {
 
     const animate = () => {
       time++;
-      const segments = getSegments(width, height, scrollRef.current);
+      const segments = getSegments(width, height);
 
       ctx.globalCompositeOperation = "destination-out";
       ctx.fillStyle = "rgba(255, 255, 255, 0.4)";

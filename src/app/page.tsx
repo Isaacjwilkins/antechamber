@@ -79,7 +79,7 @@ export default function Home() {
               variants={fadeInUp}
               transition={{ duration: 0.8, delay: 0.2 }}
             >
-              Transforming specialty referral intake into actionable intelligence
+              Transforming specialty referral intake into actionable intelligence for rare disease patients
             </motion.p>
 
             {/* CTA */}
