@@ -79,7 +79,7 @@ export default function Home() {
               variants={fadeInUp}
               transition={{ duration: 0.8, delay: 0.2 }}
             >
-              Pioneering the future of healthcare through intelligent innovation
+              Transforming specialty referral intake into actionable intelligence
             </motion.p>
 
             {/* CTA */}
@@ -130,11 +130,10 @@ export default function Home() {
               transition={{ duration: 0.8 }}
             >
               <h2 className="text-3xl sm:text-4xl font-light tracking-wider text-[#c8d6e5] mb-6">
-                Redefining Health
+                Smarter Referral Intelligence
               </h2>
-              <p className="text-lg text-[#8395a7] max-w-2xl mx-auto leading-relaxed">
-                At Antechamber Health, we believe in the power of technology to transform lives.
-                Our mission is to make healthcare smarter, more accessible, and deeply personal.
+              <p className="text-lg text-[#8395a7] max-w-3xl mx-auto leading-relaxed">
+                We transform messy referral intake for large Neuro/GI PE groups through HIE integration—turning chaos into actionable intelligence.
               </p>
             </motion.div>
 
@@ -152,12 +151,11 @@ export default function Home() {
                 transition={{ duration: 0.6 }}
               >
                 <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-[#4fc3f7]/20 to-[#7c4dff]/20 flex items-center justify-center mb-6">
-                  <HeartPulse className="w-7 h-7 text-[#4fc3f7]" />
+                  <FileStack className="w-7 h-7 text-[#4fc3f7]" />
                 </div>
-                <h3 className="text-xl font-medium text-[#c8d6e5] mb-3">Intelligent Care</h3>
+                <h3 className="text-xl font-medium text-[#c8d6e5] mb-3">Clean Referral Packets</h3>
                 <p className="text-[#8395a7] leading-relaxed">
-                  Advanced analytics that understand your unique health journey and provide
-                  personalized insights.
+                  Messy fax-based referrals become structured, clinician-ready packets. Our system also flags patients who may warrant evaluation for rare diseases—surfacing opportunities others miss.
                 </p>
               </motion.div>
 
@@ -167,12 +165,11 @@ export default function Home() {
                 transition={{ duration: 0.6 }}
               >
                 <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-[#7c4dff]/20 to-[#00e5ff]/20 flex items-center justify-center mb-6">
-                  <ShieldCheck className="w-7 h-7 text-[#7c4dff]" />
+                  <Zap className="w-7 h-7 text-[#7c4dff]" />
                 </div>
-                <h3 className="text-xl font-medium text-[#c8d6e5] mb-3">Secure & Private</h3>
+                <h3 className="text-xl font-medium text-[#c8d6e5] mb-3">Frictionless Next Steps</h3>
                 <p className="text-[#8395a7] leading-relaxed">
-                  Your data is yours. Enterprise-grade security ensures your health information
-                  stays protected.
+                  When a patient looks like a fit, we make the next step as easy as possible for the clinic and physician—eliminating barriers between identification and action.
                 </p>
               </motion.div>
 
@@ -182,12 +179,11 @@ export default function Home() {
                 transition={{ duration: 0.6 }}
               >
                 <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-[#00e5ff]/20 to-[#4fc3f7]/20 flex items-center justify-center mb-6">
-                  <Sparkles className="w-7 h-7 text-[#00e5ff]" />
+                  <TrendingUp className="w-7 h-7 text-[#00e5ff]" />
                 </div>
-                <h3 className="text-xl font-medium text-[#c8d6e5] mb-3">Future Forward</h3>
+                <h3 className="text-xl font-medium text-[#c8d6e5] mb-3">Built for PE-Backed Groups</h3>
                 <p className="text-[#8395a7] leading-relaxed">
-                  Cutting-edge technology that evolves with the latest advances in health science
-                  and AI.
+                  Lower intake costs through fewer manual touches. More revenue from faster scheduling and fewer dropped referrals. Better visibility with referral KPIs. Aligned incentives across operations and pharma partnerships.
                 </p>
               </motion.div>
             </motion.div>
