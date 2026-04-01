@@ -36,7 +36,7 @@ export default function Home() {
 
       <main>
         {/* Hero Section */}
-        <section className="relative min-h-screen flex flex-col items-center justify-center px-6">
+        <section className="relative min-h-[154vh] flex flex-col items-center justify-center px-6">
           <motion.div
             className="mx-auto max-w-4xl text-center"
             initial="hidden"
