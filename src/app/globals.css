@@ -26,6 +26,7 @@ body {
   background: var(--bg-dark);
   color: #ededed;
   font-family: var(--font-outfit), 'Outfit', sans-serif;
+  zoom: 0.65;
 }
 
 /* Subtle grid texture overlay - pointer-events none and behind content */
