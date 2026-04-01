@@ -137,8 +137,8 @@ export default function Background() {
         this.x = Math.random() * width;
         this.y = Math.random() * height;
         this.size = Math.random() * 2 + 0.5;
-        this.vx = (Math.random() - 0.5) * 4;
-        this.vy = (Math.random() - 0.5) * 4;
+        this.vx = (Math.random() - 0.5) * 6;
+        this.vy = (Math.random() - 0.5) * 6;
         this.maxLife = Math.random() * 100 + 250; // ~4-6 seconds at 60fps
         this.life = this.maxLife;
         this.opacity = 0;
@@ -153,7 +153,7 @@ export default function Background() {
           (Math.sin(this.x * zoom + t * 0.004) + Math.cos(this.y * zoom + t * 0.004)) *
           Math.PI *
           2;
-        const accel = isMappingMode ? 0.15 : 0.35;
+        const accel = isMappingMode ? 0.2 : 0.5;
 
         this.vx += Math.cos(angle) * accel;
         this.vy += Math.sin(angle) * accel;
@@ -209,7 +209,7 @@ export default function Background() {
       const segments = getSegments(width, height);
 
       ctx.globalCompositeOperation = "destination-out";
-      ctx.fillStyle = "rgba(255, 255, 255, 0.025)";
+      ctx.fillStyle = "rgba(255, 255, 255, 0.4)";
       ctx.fillRect(0, 0, width, height);
       ctx.globalCompositeOperation = "source-over";
 
