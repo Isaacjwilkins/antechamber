@@ -41,14 +41,28 @@ export default function Logo({ className = "", size = 280 }: LogoProps) {
           <stop offset="100%" stopColor="#7cc4e8" />
         </linearGradient>
 
-        <linearGradient id="crossbar" x1="0%" y1="0%" x2="100%" y2="0%">
+        {/* Diagonal gradient for crossbar */}
+        <linearGradient id="crossbar" x1="0%" y1="0%" x2="100%" y2="100%">
           <stop offset="0%" stopColor="#3a4a6a" />
-          <stop offset="50%" stopColor="#4fc3f7" />
+          <stop offset="40%" stopColor="#4fc3f7" />
           <stop offset="100%" stopColor="#5a6a8a" />
+        </linearGradient>
+
+        <linearGradient id="crossbarTop" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="#e0f0ff" />
+          <stop offset="100%" stopColor="#7cc4e8" />
         </linearGradient>
 
         <filter id="glow">
           <feGaussianBlur stdDeviation="3" result="blur" />
+          <feMerge>
+            <feMergeNode in="blur" />
+            <feMergeNode in="SourceGraphic" />
+          </feMerge>
+        </filter>
+
+        <filter id="softGlow">
+          <feGaussianBlur stdDeviation="2" result="blur" />
           <feMerge>
             <feMergeNode in="blur" />
             <feMergeNode in="SourceGraphic" />
@@ -78,16 +92,47 @@ export default function Logo({ className = "", size = 280 }: LogoProps) {
       <line x1="115" y1="8" x2="140" y2="0" stroke="rgba(224,240,255,0.5)" strokeWidth="0.8" />
       <line x1="140" y1="0" x2="165" y2="8" stroke="rgba(224,240,255,0.3)" strokeWidth="0.8" />
 
-      {/* CROSSBAR — 3D bar */}
-      <polygon points="92,175 188,175 198,195 82,195" fill="url(#crossbar)" filter="url(#glow)" />
-      <polygon points="95,168 185,168 188,175 92,175" fill="url(#faceTop)" opacity="0.7" />
-      <line x1="82" y1="195" x2="198" y2="195" stroke="rgba(79,195,247,0.3)" strokeWidth="0.5" />
+      {/* INNER TRIANGLE CUTOUT (diagonal bottom edge) - rendered before crossbar */}
+      <polygon points="140,55 98,178 198,280" fill="#0a0a0f" />
 
-      {/* INNER TRIANGLE CUTOUT */}
-      <polygon points="140,55 104,175 176,175" fill="#0a0a0f" opacity="0.92" />
-      <polygon points="140,55 104,175 176,175" fill="none" stroke="rgba(79,195,247,0.08)" strokeWidth="0.5" />
+      {/* CROSSBAR — 3D bar (diagonal, extends to bottom of right leg) */}
+      {/* Main front face - parallelogram with consistent width */}
+      <polygon
+        points="92,168 198,275 198,280 86,188"
+        fill="url(#crossbar)"
+        filter="url(#softGlow)"
+      />
+      {/* Top highlight face */}
+      <polygon
+        points="94,160 196,267 198,275 92,168"
+        fill="url(#crossbarTop)"
+        opacity="0.8"
+      />
+      {/* Top edge highlight */}
+      <line
+        x1="94" y1="160" x2="196" y2="267"
+        stroke="rgba(224,240,255,0.5)"
+        strokeWidth="0.8"
+      />
+      {/* Bottom edge highlight */}
+      <line
+        x1="86" y1="188" x2="198" y2="280"
+        stroke="rgba(79,195,247,0.2)"
+        strokeWidth="0.5"
+      />
+      {/* Left end cap */}
+      <polygon
+        points="92,168 94,160 84,175 86,188"
+        fill="url(#faceLeft)"
+        opacity="0.9"
+      />
 
-      {/* EDGE HIGHLIGHTS */}
+      {/* Inner triangle subtle border */}
+      <line x1="140" y1="55" x2="98" y2="178" stroke="rgba(79,195,247,0.06)" strokeWidth="0.5" />
+      <line x1="140" y1="55" x2="198" y2="280" stroke="rgba(79,195,247,0.06)" strokeWidth="0.5" />
+      <line x1="98" y1="178" x2="198" y2="280" stroke="rgba(79,195,247,0.08)" strokeWidth="0.5" />
+
+      {/* EDGE HIGHLIGHTS on main legs */}
       <line x1="115" y1="8" x2="38" y2="280" stroke="rgba(255,255,255,0.12)" strokeWidth="0.7" />
       <line x1="165" y1="8" x2="242" y2="280" stroke="rgba(255,255,255,0.08)" strokeWidth="0.5" />
       <line x1="140" y1="18" x2="60" y2="280" stroke="rgba(79,195,247,0.15)" strokeWidth="0.6" />
@@ -99,9 +144,6 @@ export default function Logo({ className = "", size = 280 }: LogoProps) {
       {/* Base feet accents */}
       <rect x="35" y="278" width="50" height="3" rx="1.5" fill="url(#crossbar)" opacity="0.6" />
       <rect x="195" y="278" width="50" height="3" rx="1.5" fill="url(#crossbar)" opacity="0.6" />
-
-      {/* Subtle scan line */}
-      <line x1="70" y1="230" x2="210" y2="230" stroke="rgba(79,195,247,0.04)" strokeWidth="20" />
     </svg>
   );
 }
